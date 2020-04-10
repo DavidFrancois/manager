@@ -89,9 +89,9 @@ services:
       - ~/domains.list:/etc/files/domains.list
     environment: 
       - PORT=8080
-      - DB_LOGS_FILE=/etc/files/dbsaves
-      - KEYS_FILE=/etc/files/keys
-      - DOMAINS_FILE=/etc/files/domains
+      - DB_LOGS_FILE=/etc/files/dbsaves.log
+      - KEYS_FILE=/etc/files/authorized_keys
+      - DOMAINS_FILE=/etc/files/domains.list
     ports:
       - '8080:8080'
     labels: 
