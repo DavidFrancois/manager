@@ -4,6 +4,8 @@ const apiUrl = 'http://test.diac.diji.fr:8080/manager/';
 
 const http = {
     getKeys: async () => {
+        console.log(`apiUrl = ${apiUrl}`);
+        console.log(`API_URL = ${process.env.API_URL}`)
         let response;
         try {
             response = await axios.get(`${apiUrl}keys`);
