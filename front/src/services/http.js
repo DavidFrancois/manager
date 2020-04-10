@@ -1,6 +1,6 @@
 import * as axios from 'axios';
 
-const apiUrl = process.env.API_URL || 'http://localhost:8080/manager/';
+const apiUrl = 'http://test.diac.diji.fr:8080/manager/';
 
 const http = {
     getKeys: async () => {
