@@ -84,7 +84,9 @@ services:
     build: ./api
     container_name: manager_api
     volumes:
-      - ./files:/etc/files
+      - ~/.ssh/authorized_keys:/etc/files/authorized_keys
+      - ~/dbsaves.log:/etc/files/dbsaves.log
+      - ~/domains.list:/etc/files/domains.list
     environment: 
       - PORT=8080
       - DB_LOGS_FILE=/etc/files/dbsaves
