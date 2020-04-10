@@ -1,0 +1,98 @@
+
+version: '3'
+
+volumes:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  manager:
+  monitoring:
+
+services:
+
+  prometheus:
+    image: prom/prometheus:v2.17.1
+    container_name: prometheus
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=48h'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+    expose:
+      - 9090
+    labels:
+      com.promonitor.dev: "monitoring"
+    networks:
+      - monitoring
+
+  nodeexporter:
+    image: prom/node-exporter:v0.18.1
+    container_name: nodeexporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc|tmp|run|var)($$|/)'
+    restart: unless-stopped
+    expose:
+      - 9100
+    labels:
+      com.promonitor.dev: "monitoring"
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    volumes: 
+      - grafana_data:/var/lib/grafana
+      - ./grafana/:/etc/grafana/provisioning/
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    labels: 
+      com.promonitor.dev: "monitoring"
+    networks:
+      - monitoring
+
+  front:
+    build: ./front
+    container_name: manager_front
+    stdin_open: true 
+    environment:
+      - PORT=3001
+      - API_URL=http://api:8080/manager/
+    ports:
+      - '3001:3001'
+    labels: 
+      com.promonitor.dev: "manager"
+    networks: 
+      - manager
+
+  api:
+    build: ./api
+    container_name: manager_api
+    volumes:
+      - ./files:/etc/files
+    environment: 
+      - PORT=8080
+      - DB_LOGS_FILE=/etc/files/dbsaves
+      - KEYS_FILE=/etc/files/keys
+      - DOMAINS_FILE=/etc/files/domains
+    ports:
+      - '8080:8080'
+    labels: 
+      com.promonitor.dev: "manager"
+    networks: 
+      - manager
