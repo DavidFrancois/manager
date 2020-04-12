@@ -1,11 +1,9 @@
 import * as axios from 'axios';
 
-const apiUrl = 'http://test.diac.diji.fr:8080/manager/';
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const http = {
     getKeys: async () => {
-        console.log(`apiUrl = ${apiUrl}`);
-        console.log(`API_URL = ${process.env.API_URL}`)
         let response;
         try {
             response = await axios.get(`${apiUrl}keys`);
