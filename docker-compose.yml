@@ -62,7 +62,7 @@ services:
     stdin_open: true 
     environment:
       - PORT=3001
-      - REACT_APP_API_URL=http://test.diac.diji.fr:8080/manager/
+      - REACT_APP_API_URL=http://test.diac.diji.fr:3002/manager/
     ports:
       - '3001:3001'
     labels: 
@@ -76,11 +76,11 @@ services:
       - ~/dbsaves.log:/etc/files/dbsaves.log
       - ~/domains.list:/etc/files/domains.list
     environment: 
-      - PORT=8080
+      - PORT=3002
       - DB_LOGS_FILE=/etc/files/dbsaves.log
       - KEYS_FILE=/etc/files/authorized_keys
       - DOMAINS_FILE=/etc/files/domains.list
     ports:
-      - '8080:8080'
+      - '3002:3002'
     labels: 
       com.promonitor.dev: "manager"
