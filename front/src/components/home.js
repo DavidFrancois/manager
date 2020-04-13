@@ -7,30 +7,30 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
+    Link,
+    Redirect
 } from "react-router-dom";
 
 class Home extends React.Component {
+
+    constructor() {
+        super();
+        this.state = {
+            active: 'keys'
+        }
+    }
+
     render() {
         return (
             <Router>
+                <Redirect exact from="/" to="keys" />
                 <div>
-                    <nav>
-                        <ul>
-                            <li>
-                                <Link to="/keys">SSH Keys</Link>
-                            </li>
-                            <li>
-                                <Link to="/dbsaves">DB Saves</Link>
-                            </li>
-                            <li>
-                                <Link to="/ssl">SSL</Link>
-                            </li>
-                        </ul>
-                    </nav>
-
-                        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
+                    <div class="topnav">
+                        <Link onClick={() => this.setState({ active: 'keys' })} className={this.state.active === 'keys' ? 'active' : ''} to="/keys">SSH Keys</Link>
+                        <Link onClick={() => this.setState({ active: 'dbsaves' })} className={this.state.active === 'dbsaves' ? 'active' : ''} to="/dbsaves">DB Saves</Link>
+                        <Link onClick={() => this.setState({ active: 'ssl' })} className={this.state.active === 'ssl' ? 'active' : ''} to="/ssl">SSL</Link>
+                    </div>
+                    <div className="content">
                         <Switch>
                             <Route path="/keys">
                                 <Keys />
@@ -41,10 +41,8 @@ class Home extends React.Component {
                             <Route path="/ssl">
                                 <SSL />
                             </Route>
-                            {/* <Route path="/">
-                            <Home />
-                        </Route> */}
                         </Switch>
+                    </div>
                 </div>
             </Router>
         )

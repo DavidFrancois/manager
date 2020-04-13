@@ -1,5 +1,6 @@
 import * as React from 'react';
-import http from '../services/http'
+import http from '../services/http';
+import Button from './button';
 
 class Keys extends React.Component {
 
@@ -24,30 +25,23 @@ class Keys extends React.Component {
     render() {
         return (
             <div>
-                <ul>
-                    {this.state.keys.map((k, index) => (
-                        <li>
-                            <span key={index}>{k}</span> <br />
-                            <span key={`delete_${index}`} onClick={() => this.removeKey(index)}>Delete</span>
-                        </li>
-                    ))}
-                    <li>
-                        <div class="form-group">
-                            <label for="newKey"></label>
-                            <textarea onChange={this.handleChange} value={this.state.inputKey} class="form-control" name="" id="" rows="3"></textarea>
-                        </div> <br />
-                        <button class="btn" onClick={this.addKey}>
-                            Add Key <span class="badge badge-primary"></span>
-                        </button>
-                    </li>
-                </ul>
-
-                <button class="btn" onClick={this.saveKeys}>
-                    Save Keys <span class="badge badge-primary"></span>
-                </button>
+                {this.state.keys.map((k, index) => this.itemKey(k, index))}
+                <div className="form-group">
+                    <label for="newKey"><strong>Type a key</strong></label>
+                    <textarea onChange={this.handleChange} value={this.state.inputKey} class="form-control" name="newKey" id="" rows="3"></textarea>
+                </div>
+                <Button className={'btn btn-primary'} key={'addButton'} onClickFunc={this.addKey} text={'Add Key'}/> <br />
+                <Button className={'btn btn-success item'} key={'saveButton'} onClickFunc={this.saveKeys} text={'Save Keys'}/>
             </div>
         );
     }
+
+    itemKey = (k, index) => (
+        <div className="item">
+            <span key={index}>{k}</span> <br />
+            <Button className={'btn btn-danger'} key={`delete_${index}`} onClickFunc={() => this.removeKey(index)} text={'Delete'}/>
+        </div>
+    )
 
     removeKey = (index) => {
         if (this.state.keys.length <= 2) {
@@ -76,13 +70,13 @@ class Keys extends React.Component {
             inputKey: e.target.value
         });
 
-    saveKeys =  async () => {
-        // Handle error
-        const keys = await http.saveKeys({ keys: this.state.keys }).data;
+    saveKeys = async () => {
+        // TODO: Handle error
+        const res = await http.saveKeys({ keys: this.state.keys });
         this.setState({
             ...this.state,
-            keys: keys
-        })
+            keys: res.data
+        });
     };
 
 }

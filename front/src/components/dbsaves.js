@@ -1,5 +1,6 @@
 import * as React from 'react';
-import http from '../services/http'
+import http from '../services/http';
+import Button from './button';
 
 class DBSaves extends React.Component {
 
@@ -25,17 +26,14 @@ class DBSaves extends React.Component {
     render() {
         return (
             <div>
-                <ul>
-                    {this.state.dbsaves.map((k, index) => (
-                        <li>
-                            <span key={index}>{k}</span> <br />
-                        </li>
-                    ))}
-                </ul>
+                {this.state.dbsaves.map((k, index) => (
+                    <div className="item">
+                        <span key={index}>{k}</span>
+                        <br />
+                    </div>))}
                 <span>Delete all but last <input type="number" onChange={this.handleChange} value={this.state.nbKept}></input></span> logs entry.
-                <button class="btn" onClick={this.removeDBSaves}>
-                    Delete <span class="badge badge-primary"></span>
-                </button>
+                <br />
+                <Button className={'btn btn-danger item'} text={'Delete'} onClickFunc={this.removeDBSaves} key={'deleteButton'} />
             </div>
         );
     }
@@ -47,13 +45,14 @@ class DBSaves extends React.Component {
         })
     }
 
-    removeDBSaves = () => {
-        console.log(`Remove all except last ${this.state.nbKept}`);
-        http.removeDBSaves(this.state.nbKept)
-            .then(res => this.setState({
-                dbsaves: res.data,
-                nbKept: ''
-            }))
+    removeDBSaves = async () => {
+        // TODO : handle error notif
+        if (this.state.nbKept > this.state.dbsaves.length) return;
+        const res = await http.removeDBSaves(this.state.nbKept);
+        this.setState({
+            dbsaves: res.data,
+            nbKept: ''
+        });
     }
 }
 

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import http from '../services/http'
+import http from '../services/http';
+import Button from './button';
 
 class SSL extends React.Component {
 
@@ -25,42 +26,38 @@ class SSL extends React.Component {
     render() {
         return (
             <div>
-                <ul>
-                    {this.state.domains.map((d, index) => (
-                        this.domainItem(d, index)
-                    ))}
-                    <li>
-                        <div class="form-group">
-                            <label for="specificDomain">Specific Domain</label>
-                            <input type="text" onChange={this.handleChange} value={this.state.queriedDomain} class="form-control" name="specificDomain" id="" />
-                        </div> <br />
-                        <button class="btn" onClick={this.getDomainStatus}>
-                            Get Status<span class="badge badge-primary"></span>
-                        </button>
-                        {this.specificDomainDisplay()}
-                    </li>
-                </ul>
+                {this.state.domains.map((d, index) => (
+                    this.domainItem(d, index)
+                ))}
+                <div class="form-group">
+                    <label for="specificDomain">Specific Domain</label>
+                    <input type="text" onChange={this.handleChange} value={this.state.queriedDomain} class="form-control" name="specificDomain" id="" />
+                </div> <br />
+                <Button className="btn btn-success" text="Get Status" onClickFunc={this.getDomainStatus} key="getStatus" />
+                {this.specificDomainDisplay()}
             </div>
         );
     }
 
     domainItem = (d, index) => {
-        return <div>
-            <span>{d.domain}</span> <br />
-            <span>{d.valid ? 'Valid' : 'Expired'}</span> <br />
-            <span key={index}>{d.daysRemaining}</span> <br />
-            <span>{d.validFrom}</span> <br />
-            <span>{d.validTo}</span> <br />
+        return <div className="card item" style="width: 18rem;">
+            <div className="card-body">
+                <h5 className="card-title">Domain : {d.domain}</h5>
+                <p className="card-text">Validity : {d.valid ? 'Valid' : 'Expired'}</p>
+                <p className="card-text">Days remaining : {d.daysRemaining}</p>
+                <p className="card-text">From : {d.validFrom}</p>
+                <p className="card-text">To : {d.validTo}</p>
+            </div>
         </div>
     }
 
     specificDomainDisplay = () => {
         if (this.state.specificDomain !== null) {
-            return <div>
-                <span>{this.state.specificDomain.valid ? 'Valid' : 'Expired'}</span> <br />
-                <span>{this.state.specificDomain.daysRemaining}</span> <br />
-                <span>{this.state.specificDomain.validFrom}</span> <br />
-                <span>{this.state.specificDomain.validTo}</span>
+            return <div className="card item" style="width: 18rem">
+                <p className="card-text">Validity : {this.state.specificDomain.valid ? 'Valid' : 'Expired'}</p>
+                <p className="card-text">Days remaining : {this.state.specificDomain.daysRemaining}</p>
+                <p className="card-text">From : {this.state.specificDomain.validFrom}</p>
+                <p className="card-text">To : {this.state.specificDomain.validTo}</p>
             </div>
         }
     }
