@@ -1,0 +1,2 @@
+# Execute as root or /etc/letsencrypt won't be readable
+0 0 * * * ls /etc/letsencrypt/live/ > /home/[alpine/ubuntu]/domains.list

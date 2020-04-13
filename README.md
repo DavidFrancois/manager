@@ -259,7 +259,7 @@ docker-compose up -d
 
 Accès à Grafana sur le port 3000.
 Accès au front sur le port 3001.
-Accès à l'API sur le port 8080.
+Accès à l'API sur le port 3002.
 
 # Évolutions envisagées
 
@@ -272,3 +272,8 @@ Alimenter Grafana en metrics.
 Sécuriser plus l'API au niveau de l'accès aux fichiers.
 
 Build les images en mode production pour qu'elles prennent moins de place.
+
+
+# Infos Complémentaires
+
+Pour tester les certificats, il est nécessaire que le port 443 soit ouvert à tous sur la plateforme.
