@@ -222,7 +222,7 @@ services:
     stdin_open: true 
     environment:
       - PORT=3001
-      - API_URL=http://api:8080/manager/
+      - API_URL=http://test.diac.diji.fr:3002/manager/
     ports:
       - '3001:3001'
     labels:
@@ -243,7 +243,7 @@ services:
       - KEYS_FILE=/etc/files/authorized_keys
       - DOMAINS_FILE=/etc/files/domains.list
     ports:
-      - '8080:8080'
+      - '3002:3002'
     labels:
       com.promonitor.dev: "manager"
     networks:
@@ -263,7 +263,7 @@ Accès à l'API sur le port 3002.
 
 # Évolutions envisagées
 
-Faire un design pour le front.
+Mettre des notifs fonctionnelles pour le front et gérer mieux les erreurs.
 
 Accèder à grafana avec des comptes preset autres que Admin/Admin.
 
@@ -272,6 +272,8 @@ Alimenter Grafana en metrics.
 Sécuriser plus l'API au niveau de l'accès aux fichiers.
 
 Build les images en mode production pour qu'elles prennent moins de place.
+
+Faire un sanity check sur les clés ssh avant de les ajouter au fichier.
 
 
 # Infos Complémentaires
