@@ -40,7 +40,7 @@ class SSL extends React.Component {
     }
 
     domainItem = (d, index) => {
-        return <div className="card item" style="width: 18rem;">
+        return <div className="card item" style={{ width: 18 + 'rem' }}>
             <div className="card-body">
                 <h5 className="card-title">Domain : {d.domain}</h5>
                 <p className="card-text">Validity : {d.valid ? 'Valid' : 'Expired'}</p>
@@ -53,7 +53,7 @@ class SSL extends React.Component {
 
     specificDomainDisplay = () => {
         if (this.state.specificDomain !== null) {
-            return <div className="card item" style="width: 18rem">
+            return <div className="card item" style={{ width: 18 + 'rem' }}>
                 <p className="card-text">Validity : {this.state.specificDomain.valid ? 'Valid' : 'Expired'}</p>
                 <p className="card-text">Days remaining : {this.state.specificDomain.daysRemaining}</p>
                 <p className="card-text">From : {this.state.specificDomain.validFrom}</p>
